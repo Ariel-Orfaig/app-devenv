@@ -1,0 +1,8 @@
+# Linux hosts with KVM: lets the Android emulator run (headless) in the
+# container. Build with INSTALL_EMULATOR=true.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+services:
+  mobile-dev:
+    devices:
+      - /dev/kvm:/dev/kvm

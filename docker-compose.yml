@@ -1,0 +1,46 @@
+services:
+  mobile-dev:
+    build:
+      context: .
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+        FLUTTER_VERSION: ${FLUTTER_VERSION:-3.47.9}
+        NODE_MAJOR: ${NODE_MAJOR:-24}
+        ANDROID_PLATFORM: ${ANDROID_PLATFORM:-android-36}
+        ANDROID_BUILD_TOOLS: ${ANDROID_BUILD_TOOLS:-36.0.0}
+        ANDROID_NDK: ${ANDROID_NDK:-}
+        INSTALL_EMULATOR: ${INSTALL_EMULATOR:-false}
+        CLAUDE_CODE_VERSION: ${CLAUDE_CODE_VERSION:-latest}
+    image: mobile-devenv:latest
+    container_name: mobile-devenv
+    # Android build-tools only ship for x86_64 Linux; on Apple Silicon this runs emulated.
+    platform: linux/amd64
+    hostname: mobile-devenv
+    stdin_open: true
+    tty: true
+    env_file:
+      - path: .env
+        required: false
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8081:8081"     # Metro bundler / Expo dev server
+      - "19000-19002:19000-19002" # legacy Expo ports
+      - "8080:8080"     # Flutter web-server
+    volumes:
+      - ${PROJECTS_DIR:-./workspace}:/workspace
+      - claude-config:/home/dev/.claude        # Claude Code login + settings
+      - gradle-cache:/home/dev/.gradle
+      - pub-cache:/home/dev/.pub-cache
+      - npm-cache:/home/dev/.npm
+      - android-user:/home/dev/.android        # adb keys, AVDs
+      # Uncomment to use your host SSH keys for git:
+      # - ~/.ssh:/home/dev/.ssh:ro
+
+volumes:
+  claude-config:
+  gradle-cache:
+  pub-cache:
+  npm-cache:
+  android-user:

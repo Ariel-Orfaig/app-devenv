@@ -1,0 +1,22 @@
+{
+  "name": "Mobile dev (Android / Flutter / React Native + Claude Code)",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "mobile-dev",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "dev",
+  "overrideCommand": false,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "Dart-Code.flutter",
+        "Dart-Code.dart-code",
+        "msjsdiag.vscode-react-native",
+        "expo.vscode-expo-tools",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "vscjava.vscode-gradle"
+      ]
+    }
+  }
+}

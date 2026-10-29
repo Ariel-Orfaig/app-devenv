@@ -1,0 +1,10 @@
+# Linux hosts only: pass USB devices straight into the container so `adb`
+# inside sees phones plugged into the host. Stop the host's adb server first
+# (`adb kill-server`) - only one process can own the device.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.usb.yml up -d
+services:
+  mobile-dev:
+    privileged: true
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
