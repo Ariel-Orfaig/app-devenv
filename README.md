@@ -181,7 +181,7 @@ All versions are build args. Set them in `.env` and run `make build` again:
 
 | Variable | Default |
 |---|---|
-| `FLUTTER_VERSION` | `3.47.9` (any Flutter git tag) |
+| `FLUTTER_VERSION` | `3.47.9` (any Flutter stable release) |
 | `NODE_MAJOR` | `24` |
 | `ANDROID_PLATFORM` | `android-36` |
 | `ANDROID_BUILD_TOOLS` | `36.0.0` |

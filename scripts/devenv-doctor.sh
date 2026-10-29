@@ -28,7 +28,7 @@ check claude      claude --version
 
 echo
 echo "Installed Android SDK packages:"
-sdkmanager --list_installed 2>/dev/null | awk 'NR>3 && NF {print "   " $1}'
+sdkmanager --list_installed 2>/dev/null | awk 'NR>3 && NF && $1 !~ /^-+$/ {print "   " $1}'
 
 echo
 echo "Connected Android devices:"

@@ -107,14 +107,18 @@ RUN ln -s /usr/lib/jvm/java-${JAVA_VERSION}-openjdk-* ${JAVA_HOME} \
 ENV FLUTTER_HOME=/opt/flutter
 ENV PATH=${FLUTTER_HOME}/bin:${PATH}
 
-RUN git clone --depth 1 --branch ${FLUTTER_VERSION} https://github.com/flutter/flutter.git ${FLUTTER_HOME} \
+# Official release archive (keeps the "stable" channel metadata intact).
+RUN curl -fsSL "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz" \
+        | tar -xJ -C /opt \
     && chown -R ${USER_UID}:${USER_GID} ${FLUTTER_HOME}
 
 # ---- Per-user setup -------------------------------------------------------
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN git config --global --add safe.directory '*' \
+    && corepack install -g yarn@1 pnpm@latest \
     && flutter config --no-analytics --android-sdk ${ANDROID_HOME} \
     && dart --disable-analytics \
     && flutter precache --android --linux --web \
